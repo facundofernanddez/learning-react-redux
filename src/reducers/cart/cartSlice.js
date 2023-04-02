@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   totalCount: 0,
-  productsList: [],
+  productList: [],
 };
 
 export const cartSlice = createSlice({
@@ -10,13 +10,20 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addProductToCart: (state, action) => {
-      state.productsList = [...state.productsList, action.payload];
+      state.productList = [...state.productList, action.payload];
       state.totalCount += 1;
+    },
+    removeProductFromCart: (state, action) => {
+      const productId = action.payload;
+      state.totalCount -= 1;
+      state.productList = state.productList.filter(
+        (product) => product.id !== productId
+      );
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addProductToCart } = cartSlice.actions;
+export const { addProductToCart, removeProductFromCart } = cartSlice.actions;
 
 export default cartSlice.reducer;
